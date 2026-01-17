@@ -6,6 +6,7 @@ from random import random
 from road import *
 import numpy as np
 from vect2d import vect2d
+import world
 
 
 class Car:
@@ -25,10 +26,24 @@ class Car:
 
     def initImgs(self):
         img_names = ["yellow_car.png", "red_car.png", "blu_car.png", "green_car.png"]
-        name = img_names[floor(random()*len(img_names))%len(img_names)]                 #prendi a caso una di queste immagini
+        name = img_names[floor(random()*len(img_names)) % len(img_names)]
 
-        self.img = py.transform.rotate(py.transform.scale(py.image.load(os.path.join("imgs", name)).convert_alpha(), (120,69)), -90)
-        self.brake_img = py.transform.rotate(py.transform.scale(py.image.load(os.path.join("imgs", "brakes.png")).convert_alpha(), (120,69)), -90)
+        # Load at native resolution
+        self.base_img = py.image.load(os.path.join("imgs", name)).convert_alpha()
+        self.base_brake = py.image.load(os.path.join("imgs", "brakes.png")).convert_alpha()
+
+        # Desired on-screen size (tune this)
+        self.sprite_size = (160, 92)  # increase if you want crisper / larger cars
+
+        # High quality downscale/upscale
+        self.img = py.transform.smoothscale(self.base_img, self.sprite_size)
+        self.brake_img = py.transform.smoothscale(self.base_brake, self.sprite_size)
+
+        # If your car art faces "up" already, remove this.
+        # If you need a -90° orientation fix, do it ONCE here:
+        self.img = py.transform.rotate(self.img, -90)
+        self.brake_img = py.transform.rotate(self.brake_img, -90)
+
 
     def detectCollision(self, road):
         #get mask
@@ -135,14 +150,16 @@ class Car:
 
     def draw(self, world):
         screen_position = world.getScreenCoords(self.x, self.y)
-        rotated_img = py.transform.rotate(self.img, -self.rot)
-        new_rect = rotated_img.get_rect(center = screen_position)
-        world.win.blit(rotated_img, new_rect.topleft)
 
+        rotated_img = py.transform.rotate(self.img, -self.rot)
+        new_rect = rotated_img.get_rect(center=screen_position)
+        world.win.blit(rotated_img, new_rect.topleft)
+        
         if decodeCommand(self.commands, BRAKE):
-            rotated_img = py.transform.rotate(self.brake_img, -self.rot)
-            new_rect = rotated_img.get_rect(center = screen_position)
-            world.win.blit(rotated_img, new_rect.topleft)
+            rotated_brake = py.transform.rotate(self.brake_img, -self.rot)
+            brake_rect = rotated_brake.get_rect(center=screen_position)
+            world.win.blit(rotated_brake, brake_rect.topleft)
+
 
     #======================== LOCAL FUNCTIONS ==========================
 

@@ -3,7 +3,7 @@ py.font.init()
 
 
 #=================== General constants ==================================
-FPS = 30
+FPS = 60
 WIN_WIDTH = 1100
 WIN_HEIGHT = 800
 STARTING_POS = (WIN_WIDTH/2, WIN_HEIGHT-100)
@@ -28,12 +28,12 @@ ACTIVATION_TRESHOLD = 0.5
 #=================== Road Specs ==================================
 
 ROAD_DBG = False
-MAX_ANGLE = 1
-MAX_DEVIATION = 300
-SPACING = 200
+MAX_ANGLE = 0.55
+MAX_DEVIATION = 220
+ROAD_WIDTH = 240
+SPACING = 220
 NUM_POINTS  = 15                #number of points for each segment
 SAFE_SPACE = SPACING + 50       #buffer space above the screen
-ROAD_WIDTH = 200
 
 #=================== Display and Colors ==================================
 
@@ -76,6 +76,8 @@ DRAW_ROAD_FILL = True
 
 # Report file name (generation summaries)
 REPORT_FILE = "report.txt"
+CAMERA_TARGET_Y = 0.78   # car sits at 78% of screen height (more road ahead)
+CAMERA_SMOOTHING = 0.15  # 0..1, higher = snappier camera
 
 #=================== Constants for internal use ==================================
 GEN = 0

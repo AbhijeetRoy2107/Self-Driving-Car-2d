@@ -59,8 +59,16 @@ class Road:
 
         #define p2
         seed()
-        p2.co(p1.x + (random()-0.5)*MAX_DEVIATION, p1.y-SPACING)
-        p2.angle = MAX_ANGLE*(random()-0.5)
+        # Lateral movement with a soft clamp (prevents huge kinks)
+        dx = (random() - 0.5) * MAX_DEVIATION
+        p2.co(p1.x + dx, p1.y - SPACING)
+
+        # Smooth the target tangent angle using previous angle (low-pass filter)
+        prev_ang = getattr(p1, "angle", 0.0)
+
+        target = (random() - 0.5) * MAX_ANGLE
+        smooth = 0.85  # closer to 1.0 = smoother, less variation
+        p2.angle = smooth * prev_ang + (1.0 - smooth) * target
 
         y_tmp = []
         for i in range(NUM_POINTS):

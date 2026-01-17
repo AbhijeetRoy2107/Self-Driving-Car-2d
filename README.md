@@ -2,9 +2,8 @@
 
 This is the code for a self driving Neural Network using NEAT in Python
 
-To execute it, run main.py in python 3.7.
-You also need NEAT, pygame, numpy and scipy
 
+- Run using `python main.py`
 - Tweak Settings : `config_variables.py` and `config_file.txt` 
 
 ```
@@ -14,4 +13,6 @@ dependencies = [
     "numpy>=2.4.1",
     "pygame>=2.6.1",
     "scipy>=1.17.0",
-]```
+]
+
+```

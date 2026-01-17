@@ -11,7 +11,7 @@ from config_variables import *
 py.font.init()
 
 
-# A nicer background (subtle vertical gradient)
+
 def make_bg(w, h):
     surf = py.Surface((w, h))
     top = (245, 245, 245)
@@ -189,7 +189,6 @@ def main(genomes = [], config = []):
 class FileGenerationReporter(neat.reporting.BaseReporter):
     """
     Writes a per-generation summary to REPORT_FILE.
-    Does not rely on StatisticsReporter internals (varies by neat-python version).
     """
     def __init__(self, filename):
         self.filename = filename
