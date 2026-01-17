@@ -36,7 +36,8 @@ uv venv .venv
 .\.venv\Scripts\Activate.ps1
 
 uv sync
-python main.py
+python main.py #to train your model for the car
+python play.py #(optional) to let the best trained model run the car
 ```
 ##### macOS / Linux
 ```
@@ -48,6 +49,7 @@ source .venv/bin/activate
 
 uv sync
 python main.py
+python play.py
 ```
 ---
 ## Dependencies
