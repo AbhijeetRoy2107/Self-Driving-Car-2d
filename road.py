@@ -19,12 +19,12 @@ class Road:
         for i in range(self.num_ctrl_points):
              self.ctrl_points.append(vect2d())
 
-        for i in range(NUM_POINTS*self.num_ctrl_points):        #riempi i vettori pointsLeft e pointsRight
+        for i in range(NUM_POINTS*self.num_ctrl_points):        
             self.pointsLeft.append(vect2d(1000,1000))
             self.pointsRight.append(vect2d(1000,1000))
             self.centerPoints.append(vect2d(1000,1000))
 
-        self.ctrl_points[0].co(0, SPACING)              #inizializza i primi due control_point in modo che siano dritti
+        self.ctrl_points[0].co(0, SPACING)              
         self.ctrl_points[1].co(0, 0)
         for i in range(NUM_POINTS):
             x = self.ctrl_points[0].x
@@ -75,7 +75,7 @@ class Road:
             y_tmp.append(p2.y+SPACING/NUM_POINTS*i)
 
         #get cubic spline of the center line of the road
-        ny = np.array([p2.y, p1.y]) #invertiti perchè scify vuole le x crescenti (in questo caso le y)
+        ny = np.array([p2.y, p1.y]) 
         nx = np.array([p2.x, p1.x])
         cs = interpolate.CubicSpline(ny, nx, axis=0, bc_type=((1,p2.angle),(1,p1.angle)))
         res = cs(y_tmp)
@@ -101,7 +101,7 @@ class Road:
                 py.draw.circle(world.win, BLUE, world.getScreenCoords(self.pointsLeft[i].x, self.pointsLeft[i].y), 2)
                 py.draw.circle(world.win, BLUE, world.getScreenCoords(self.pointsRight[i].x, self.pointsRight[i].y), 2)
         else:
-            # optional road fill for a more polished look
+            # add some good looking road dividing lines(dashed obv)
             if DRAW_ROAD_FILL:
                 poly = []
                 # use only points that are on/near screen to avoid huge polygons

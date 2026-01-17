@@ -152,7 +152,7 @@ def run_demo():
 
         road.update(world)
 
-        # Prevent double-update flicker (main.draw_win calls display.update internally)
+        # This shit Prevents double-update flicker (because main.draw_win calls display.update internally.Pygame is shit)
         _orig_update = py.display.update
         py.display.update = lambda *args, **kwargs: None
         train.draw_win(cars, road, world, gen=0)

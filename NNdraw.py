@@ -27,7 +27,7 @@ class NN:
         self.title_h = 34
         self.col_gap = 130
 
-        # ----- Inputs -----
+        # input nodes
         h = (INPUT_NEURONS - 1) * (NODE_RADIUS * 2 + NODE_SPACING)
         for i, inp in enumerate(config.genome_config.input_keys):
             n = Node(
@@ -42,7 +42,7 @@ class NN:
             self.nodes.append(n)
             nodeIdList.append(inp)
 
-        # ----- Outputs -----
+        # output nodes
         h = (OUTPUT_NEURONS - 1) * (NODE_RADIUS * 2 + NODE_SPACING)
         for i, out in enumerate(config.genome_config.output_keys):
             n = Node(
@@ -59,7 +59,7 @@ class NN:
                 middle_nodes.remove(out)
             nodeIdList.append(out)
 
-        # ----- Hidden/Middle -----
+        # hidden nodes
         h = (len(middle_nodes) - 1) * (NODE_RADIUS * 2 + NODE_SPACING) if len(middle_nodes) > 1 else 0
         for i, m in enumerate(middle_nodes):
             n = Node(
@@ -72,7 +72,7 @@ class NN:
             self.nodes.append(n)
             nodeIdList.append(m)
 
-        # ----- Connections -----
+        # -connections
         self.connections = []
         for c in genome.connections.values():
             if c.enabled:

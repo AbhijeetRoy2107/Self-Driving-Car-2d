@@ -9,21 +9,19 @@ from world import World
 from NNdraw import NN
 from config_variables import *
 
-# -----------------------------
-# Import-safe globals / caching
-# -----------------------------
+
 _bg_cache = None
 _fonts_ready = False
 GEN = 0
 
-
+#check pygame health
 def ensure_pygame_ready():
     global _fonts_ready
     if not _fonts_ready:
         py.font.init()
         _fonts_ready = True
 
-
+#draw background
 def make_bg(w, h):
     surf = py.Surface((w, h))
     top = (245, 245, 245)
@@ -45,7 +43,7 @@ def get_bg():
         _bg_cache = make_bg(WIN_WIDTH, WIN_HEIGHT)
     return _bg_cache
 
-
+#draw heads-up UI elements
 def draw_hud(world, gen, alive):
     ensure_pygame_ready()
 
@@ -97,9 +95,7 @@ def draw_win(cars, road, world, gen):
     py.display.update()
 
 
-# -----------------------------------------
-# Persistence: save best genome continuously
-# -----------------------------------------
+#save best genome continuously during training even on abrupt exit
 class BestGenomeSaver(neat.reporting.BaseReporter):
     def __init__(self, path):
         self.path = path
@@ -113,7 +109,7 @@ class BestGenomeSaver(neat.reporting.BaseReporter):
             with open(self.path, "wb") as f:
                 pickle.dump(best_genome, f)
 
-
+#generating report for each generation during training(saves as report.txt)
 class FileGenerationReporter(neat.reporting.BaseReporter):
     def __init__(self, filename):
         self.filename = filename
@@ -153,9 +149,7 @@ class FileGenerationReporter(neat.reporting.BaseReporter):
             f.write(line)
 
 
-# -----------------------------
-# NEAT evaluation function
-# -----------------------------
+#NEAT training and evaluation loop
 def eval_genomes(genomes, config):
     global GEN
     GEN += 1
